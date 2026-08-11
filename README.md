@@ -52,8 +52,10 @@ dashboard on top. No Dune dependency.
   the pooler endpoint (`TREASURIES_DATABASE_URL` in `dashboard/.env.local`);
   ingest writes via the direct endpoint (`DATABASE_URL` in `.env`). The local
   homebrew Postgres remains as a dev copy (`LOCAL_DATABASE_URL`).
-- **Refresh:** hourly cron on this machine (`crontab -l`, minute 15) running
-  `scripts/refresh.sh` -> `logs/refresh.log`. Nonzero exit = gate failed.
+- **Refresh: GitHub Actions** (`.github/workflows/refresh.yml` in this repo):
+  incremental every 2 hours at :15, full daily at 06:45, manual runs via
+  workflow_dispatch. Secrets: `DATABASE_URL`, `ALCHEMY_API_KEY`. A red run
+  means the supply gate failed. No local machine is involved.
 - **Monitoring:** Setnel detector kit at `dashboard/lib/setnel/` +
   `/api/setnel/cron` (Vercel cron every 6h via `dashboard/vercel.json`).
   Needs `SETNEL_HUB_URL`, `SETNEL_SECRET`, `SETNEL_CRON_SECRET` env vars;

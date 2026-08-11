@@ -35,9 +35,18 @@ psql -d tokenized_treasuries -c "select count(*) from raw.erc20_transfers"
 psql -d tokenized_treasuries -c "select round(sum(aum_usd)/1e9,2) as aum_bn from marts.fct_current_positions"
 ```
 
-Note: the database is a convenience, not a dependency. Every number is
-reproducible from the chains themselves by running the pipeline's backfill
-from scratch (takes a few hours under free-tier rate limits).
+Notes on data currency and provenance:
+
+- The dump includes the ingestion cursors, so your **first refresh run
+  automatically catches up** from the dump date to the present by reading
+  the chains. You never need access to Datum Labs' database, and the dump
+  does not need to be re-issued at cutover.
+- The database is a convenience, not a dependency: every number is
+  reproducible from the chains themselves by running the pipeline's backfill
+  from scratch (takes a few hours under free-tier rate limits).
+- Until your systemd timers take over, the scheduled refresh runs in this
+  repo's GitHub Actions (`refresh-data` workflow); disable it at cutover so
+  there is a single writer.
 
 ## 2. Environment
 
