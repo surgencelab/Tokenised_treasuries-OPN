@@ -6,7 +6,7 @@
 set -e
 cd "$(dirname "$0")/.."
 ./.venv/bin/python ingest/backfill.py
-./.venv/bin/python ingest/snapshot_nonevm.py
+./.venv/bin/python ingest/snapshot_nonevm.py || echo "snapshots: some venues failed (non-fatal)"
 if [[ "$REFRESH_HISTORY" == "1" ]]; then
   # individual reconstructed series may fail transiently (rate windows);
   # they are snapshot-gated on write, so a miss is stale-not-wrong.

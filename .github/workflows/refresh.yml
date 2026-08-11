@@ -44,7 +44,7 @@ jobs:
           REFRESH_HISTORY: ${{ (github.event.schedule == '45 6 * * *' || inputs.full) && '1' || '' }}
         run: |
           python ingest/backfill.py
-          python ingest/snapshot_nonevm.py
+          python ingest/snapshot_nonevm.py || echo "snapshots: some venues failed (non-fatal; stale-snapshot detector covers this)"
           if [ "$REFRESH_HISTORY" = "1" ]; then
             python ingest/history_nonevm.py || echo "history: some series failed (non-fatal)"
             python ingest/stellar_holders.py || echo "holders: failed (non-fatal)"
