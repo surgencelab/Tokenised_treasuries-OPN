@@ -36,7 +36,16 @@ def main(product_ids=None):
                 (ZERO_ADDRESS, ZERO_ADDRESS, chain, addr),
             ).fetchone()
             computed = row[0]  # mints (from zero) minus burns (to zero)
-            onchain = Decimal(int(eth_call(rpc_url(chain), addr, SEL_TOTAL_SUPPLY), 16)) \
+            # compare at the exact block ingestion stopped at, so tokens
+            # minted after the cursor can't produce false mismatches
+            cur = conn.execute(
+                "select last_block from raw.ingest_cursor "
+                "where chain=%s and contract_address=%s",
+                (chain, addr),
+            ).fetchone()
+            at_block = hex(cur[0]) if cur else "latest"
+            onchain = Decimal(int(
+                eth_call(rpc_url(chain), addr, SEL_TOTAL_SUPPLY, at_block), 16)) \
                 / Decimal(10) ** decimals
             if onchain == 0:
                 ok = abs(computed) < Decimal("0.01")  # raw-event dust on dead deployments

@@ -84,8 +84,8 @@ def rpc_batch(url: str, calls: list, retries: int = 6):
     raise Exception(f"Batch RPC failed after {retries} retries")
 
 
-def eth_call(url: str, to: str, data: str):
-    return rpc(url, "eth_call", [{"to": to, "data": data}, "latest"])
+def eth_call(url: str, to: str, data: str, block: str = "latest"):
+    return rpc(url, "eth_call", [{"to": to, "data": data}, block])
 
 
 def head_block(url: str) -> int:
