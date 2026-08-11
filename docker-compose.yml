@@ -1,0 +1,55 @@
+# Tokenized Treasuries: full self-hosted stack.
+#   docker compose up -d                -> dashboard only (external Postgres)
+#   docker compose --profile withdb up  -> dashboard + local Postgres
+#   docker compose --profile pipeline up-> add the hourly refresh worker
+# Recommended production setup: dashboard container + your own Postgres +
+# the pipeline on systemd timers (see handover/systemd/). The pipeline
+# service below is the container alternative.
+
+services:
+  app:
+    build: ./dashboard
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      TREASURIES_DATABASE_URL: ${TREASURIES_DATABASE_URL}
+      SETNEL_HUB_URL: ${SETNEL_HUB_URL:-}
+      SETNEL_SECRET: ${SETNEL_SECRET:-}
+      SETNEL_CRON_SECRET: ${SETNEL_CRON_SECRET:-}
+
+  db:
+    image: postgres:16
+    profiles: ["withdb"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tokenized_treasuries
+      POSTGRES_USER: treasuries
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pipeline:
+    image: python:3.12-slim
+    profiles: ["pipeline"]
+    restart: unless-stopped
+    working_dir: /work
+    volumes:
+      - ./:/work
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      ALCHEMY_API_KEY: ${ALCHEMY_API_KEY}
+      REFRESH_INTERVAL_SECONDS: ${REFRESH_INTERVAL_SECONDS:-3600}
+    command: >
+      sh -c "pip install -q -r requirements.txt &&
+             while true; do
+               python ingest/backfill.py &&
+               python ingest/snapshot_nonevm.py &&
+               python ingest/validate_supply.py;
+               sleep $${REFRESH_INTERVAL_SECONDS};
+             done"
+
+volumes:
+  pgdata:

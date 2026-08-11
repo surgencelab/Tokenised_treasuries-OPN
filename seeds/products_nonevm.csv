@@ -1,0 +1,18 @@
+product_id,symbol,fund_name,issuer,chain,identifier,nav_model,notes
+benji-stellar,BENJI,BENJI (Stellar),Franklin Templeton,stellar,BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5,peg,Issuer identified via Horizon (1323 authorized accounts)
+usdy-stellar,USDY,USDY (Stellar),Ondo,stellar,USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6,accruing,From Ondo docs
+buidl-aptos,BUIDL,BUIDL (Aptos),BlackRock / Securitize,aptos,0x50038be55be5b964cfa32cf128b5cf05f123959f286b4cc02b86cafd48945f89,peg,Via Aptos indexer metadata
+benji-aptos,BENJI,BENJI (Aptos),Franklin Templeton,aptos,0x7b5e9cac3433e9202f28527f707c89e1e47b19de2c33e4db9521a63ad219b739,peg,Via Aptos indexer metadata
+usdy-aptos,USDY,USDY (Aptos),Ondo,aptos,0xcfea864b32833f157f042618bd845145256b1bf4c0da34a7013b76e42daa53cc::usdy::USDY,accruing,From Ondo docs
+buidl-solana,BUIDL,BUIDL (Solana),BlackRock / Securitize,solana,GyWgeqpy5GueU2YbkE8xqUeVEokCMMCEeUrfbtMw6phr,peg,Via Securitize press + verified getTokenSupply
+benji-solana,BENJI,BENJI (Solana),Franklin Templeton,solana,5Tu84fKBpe9vfXeotjvfvWdWbAjy3hqsExvuHgFqFxA1,peg,Tiny deployment (~105 tokens)
+usdy-solana,USDY,USDY (Solana),Ondo,solana,A1KLoBrKBde8Ty9qtNQUtq3C2ortoC3u7twggz7sEto6,accruing,From Ondo docs
+ousg-solana,OUSG,OUSG (Solana),Ondo,solana,i7u4r16TcsJTgq1kAG8opmVZyVnAKBwLKu6ZPMwzxNc,accruing,From Ondo docs
+usyc-solana,USYC,USYC (Solana),Hashnote / Circle,solana,7LWanZteUKtvFjv4MHYgKXXdAuCQYFPJysL9pxxdRQGn,accruing,From Circle docs (tiny)
+ustb-solana,USTB,USTB (Solana),Superstate,solana,CCz3SGVziFeLYk2xfEstkiqJfYkjaSWb2GCABYsVcjo2,accruing,From Superstate docs
+usdy-sui,USDY,USDY (Sui),Ondo,sui,0x960b531667636f39e85867775f52f6b1f220a058c4de786905bdf761e06a56bb::usdy::USDY,accruing,From Ondo docs
+usdy-noble,USDY,USDY (Noble),Ondo,noble,ausdy,accruing,From Ondo docs
+ousg-xrpl,OUSG,OUSG (XRP Ledger),Ondo,xrpl,4F55534700000000000000000000000000000000.rHuiXXjHLpMP8ZE9sSQU5aADQVWDwv6h5p,accruing,From Ondo docs; verified via gateway_balances
+usdy-plume,USDY,USDY (Plume),Ondo,plume,0xd2b65e851be3d80d3c2ce795eb2e78f16cb088b2,accruing,From Ondo docs
+ustb-plume,USTB,USTB (Plume),Superstate,plume,0xe4fa682f94610ccd170680cc3b045d77d9e528a8,accruing,From Superstate docs
+usdy-sei,USDY,USDY (Sei),Ondo,sei,0x54cd901491aef397084453f4372b93c33260e2a6,accruing,From Ondo docs
