@@ -1,0 +1,128 @@
+/* IOPn brand tokens (Brand Kit: black base, white text, Davy's Gray secondary,
+   Midnight Indigo #1F2750 accents, Plus Jakarta Sans). Variable names keep
+   their original roles: --white = surface, --ink = text/action. */
+:root {
+  --white: #05060b;
+  --ink: #ffffff;
+  --ink-hover: #d7dae2;
+  --ink-2: #c2c6cf;
+  --muted: #8e9199;
+  --faint: #646466;
+
+  --panel: #0b0e1a;
+  --panel-2: #12162a;
+  --panel-3: #1f2750;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.24);
+
+  --good: #34d399;
+  --good-bg: rgba(52, 211, 153, 0.12);
+  --warning: #f5a524;
+  --warning-bg: rgba(245, 165, 36, 0.12);
+  --critical: #f87171;
+
+  --brand: #4c7bf4;
+
+  --font-sans: var(--font-jakarta), 'Plus Jakarta Sans', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Geist Mono', ui-monospace,
+    SFMono-Regular, 'JetBrains Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--white); }
+
+body {
+  margin: 0;
+  /* the IOPn signature: blue bleeding into black from the top corner */
+  background:
+    radial-gradient(1100px 520px at 6% -12%, rgba(76, 123, 244, 0.22), transparent 62%),
+    var(--white);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.micro-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--good);
+  animation: live-pulse 2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-dot { animation: none; }
+}
+
+table.data-table { width: 100%; border-collapse: collapse; }
+table.data-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+table.data-table th:first-child { text-align: left; }
+table.data-table td {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  color: var(--ink);
+  text-align: right;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+table.data-table td:first-child { text-align: left; }
+table.data-table tr:last-child td { border-bottom: none; }
+table.data-table tr:hover td { background: var(--panel-2); }
+
+@media (max-width: 880px) {
+  [data-kpi-row] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-two-col] { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 560px) {
+  [data-kpi-row] { grid-template-columns: 1fr !important; }
+}

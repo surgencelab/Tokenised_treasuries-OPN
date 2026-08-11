@@ -1,0 +1,11 @@
+[Unit]
+Description=Tokenized Treasuries hourly refresh (ingest + snapshots + supply gate)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=treasuries
+WorkingDirectory=/opt/tokenized-treasuries
+ExecStart=/opt/tokenized-treasuries/scripts/refresh.sh
+StandardOutput=append:/opt/tokenized-treasuries/logs/refresh.log
+StandardError=inherit

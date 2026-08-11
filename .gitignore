@@ -1,0 +1,16 @@
+# secrets
+.env
+dashboard/.env.local
+dashboard/.vercel/
+
+# environments / build output
+.venv/
+dashboard/node_modules/
+dashboard/.next/
+
+# local artifacts
+logs/
+exports/
+handover/*.dump
+.DS_Store
+.claude/

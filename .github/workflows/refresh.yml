@@ -1,0 +1,52 @@
+# Scheduled data refresh: ingest -> snapshots -> (daily: history + holders)
+# -> supply gate. A red run means the supply gate failed or a source broke;
+# the dashboard keeps serving the last verified data either way.
+#
+# Schedules run every 2h to stay inside GitHub's free minutes for private
+# repos; tighten to hourly ("15 * * * *") if the repo goes public or the
+# minutes budget allows.
+name: refresh-data
+
+on:
+  schedule:
+    - cron: "15 */2 * * *"   # incremental, every 2 hours at :15
+    - cron: "45 6 * * *"     # full daily: history series + holder lists
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Run the full refresh (history + holders)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Refresh
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+          # the 06:45 schedule and manual "full" runs rebuild history too
+          REFRESH_HISTORY: ${{ (github.event.schedule == '45 6 * * *' || inputs.full) && '1' || '' }}
+        run: |
+          python ingest/backfill.py
+          python ingest/snapshot_nonevm.py
+          if [ "$REFRESH_HISTORY" = "1" ]; then
+            python ingest/history_nonevm.py || echo "history: some series failed (non-fatal)"
+            python ingest/stellar_holders.py || echo "holders: failed (non-fatal)"
+          fi
+          python ingest/validate_supply.py

@@ -1,0 +1,12 @@
+[Unit]
+Description=Tokenized Treasuries daily full refresh (adds history series + holder lists)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=treasuries
+WorkingDirectory=/opt/tokenized-treasuries
+Environment=REFRESH_HISTORY=1
+ExecStart=/opt/tokenized-treasuries/scripts/refresh.sh
+StandardOutput=append:/opt/tokenized-treasuries/logs/refresh.log
+StandardError=inherit
