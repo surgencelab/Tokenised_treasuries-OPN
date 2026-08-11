@@ -56,16 +56,13 @@ dashboard on top. No Dune dependency.
   incremental every 2 hours at :15, full daily at 06:45, manual runs via
   workflow_dispatch. Secrets: `DATABASE_URL`, `ALCHEMY_API_KEY`. A red run
   means the supply gate failed. No local machine is involved.
-- **Monitoring:** Setnel detector kit at `dashboard/lib/setnel/` +
-  `/api/setnel/cron` (Vercel cron every 6h via `dashboard/vercel.json`).
-  Needs `SETNEL_HUB_URL`, `SETNEL_SECRET`, `SETNEL_CRON_SECRET` env vars;
-  skips gracefully until set. Detectors: ingestion stalled, snapshots stale,
-  NAV proxy leak, per-product AUM shock >15%/day.
+- **Monitoring:** a failed refresh (supply gate or source outage) shows as a
+  red run on the `refresh-data` workflow, which GitHub emails about.
+  Managed monitoring/alerting is available separately from Datum Labs.
 - **Deployed: https://tokenized-treasuries.vercel.app** (Vercel project
-  `tokenized-treasuries` under `surgencebdm-3200s-projects`, Hobby plan so
-  the Setnel cron runs daily 07:30 UTC). Redeploy: `cd dashboard &&
-  vercel --prod`. Setnel env vars still to be added in Vercel for live
-  alerting.
+  `tokenized-treasuries` under `surgencebdm-3200s-projects`). Redeploy:
+  `cd dashboard && vercel --prod`. This deployment retires at cutover per
+  handover/DEPLOY.md.
 - **After shipping:** rotate the Alchemy key and the Neon password (both were
   shared in chat), and re-issue the env files.
 

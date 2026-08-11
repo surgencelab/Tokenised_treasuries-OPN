@@ -61,8 +61,6 @@ ALCHEMY_API_KEY=<create your own at alchemy.com; free tier is sufficient>
 `/opt/tokenized-treasuries/dashboard/.env.local` (app):
 ```
 TREASURIES_DATABASE_URL=postgresql://USER:PASS@HOST:5432/tokenized_treasuries
-# optional, for Setnel alerting:
-# SETNEL_HUB_URL=  SETNEL_SECRET=  SETNEL_CRON_SECRET=
 ```
 
 Add `?sslmode=require` to the URLs if your Postgres requires TLS.
@@ -109,11 +107,6 @@ sudo systemctl enable --now treasuries-refresh.timer treasuries-refresh-full.tim
 - A nonzero exit means the supply gate failed (computed supply != on-chain
   totalSupply). That is the signal to investigate before trusting new data;
   the dashboard keeps serving the last good state either way.
-
-Optional daily monitoring ping (replaces the old Vercel cron):
-```
-30 7 * * * curl -s -H "Authorization: Bearer $SETNEL_CRON_SECRET" https://treasuries.iopn.network/api/setnel/cron
-```
 
 ## 6. Verify
 

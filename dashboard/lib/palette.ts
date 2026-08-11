@@ -1,4 +1,4 @@
-// Setnel v2 data-viz series palette, assigned by product size order.
+// Data-viz series palette, assigned by product size order.
 export const SYMBOL_COLORS: Record<string, string> = {
   BUIDL: "#2563eb",
   "BUIDL-I": "#7ea4f5",

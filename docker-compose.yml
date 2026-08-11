@@ -14,9 +14,6 @@ services:
       - "3000:3000"
     environment:
       TREASURIES_DATABASE_URL: ${TREASURIES_DATABASE_URL}
-      SETNEL_HUB_URL: ${SETNEL_HUB_URL:-}
-      SETNEL_SECRET: ${SETNEL_SECRET:-}
-      SETNEL_CRON_SECRET: ${SETNEL_CRON_SECRET:-}
 
   db:
     image: postgres:16
